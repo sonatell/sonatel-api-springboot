@@ -1,0 +1,29 @@
+sonatel:
+  base-url: https://api.sandbox.orange-sonatel.com
+  public-key-uri: /api/account/v1/publicKeys
+  security:
+    client-id: <put_your_client_id>
+    client-secret: <put_your_client_secret>
+  my-msisdn: <put_your_msisdn>
+  my-pin-code: <put_your_pincode>
+
+
+######################################    ######################################
+  ################ CONFIGURATION PROPERTIES    #############
+######################################    ######################################
+
+spring:
+  profiles:
+    default: sandbox
+  application.name: sonatel-api-demo
+  security.oauth2.client:
+    registration:
+      sonatel:
+        client-id: ${sonatel.security.client-id}
+        client-secret: ${sonatel.security.client-secret}
+        authorization-grant-type: client_credentials
+        scope: email
+    provider:
+      sonatel:
+        token-uri: ${sonatel.base-url}/oauth/v1/token
+
