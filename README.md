@@ -1,28 +1,30 @@
 # Sonatel APIs Spring Boot Library
 
-### Getting started
+### 🚀 Getting started
 
-1 - Configure my credentials under this config
+1 - Add SDK dependency
 
-> resources / application.yaml
+```xml
+        <dependency>
+            <groupId>sn.sonatel.api</groupId>
+            <artifactId>sonatel-api-springboot</artifactId>
+            <version>${sdk.version}</version>
+        </dependency>
+```
+
+2 - 🔑 Configure my credentials
 
 ```yaml
 
 sonatel:
     security:
-      client-id: <put_your_client_id>
-      client-secret: <put_your_client_secret>
+        client-id: <put_your_client_id>
+        client-secret: <put_your_client_secret>
     my-numbers:
-      - 77xxxxxxx
+        - 77xxxxxxx
 
 ```
 
-2 - Do my first API Call _(cf. file under resources/tests.http)_
-
-```shell
-    curl http://localhost:8080/api/account/v1/publicKeys
-```
-
-3 - Required
+2 - Required
 
 Java 11+
