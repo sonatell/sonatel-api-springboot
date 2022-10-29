@@ -58,4 +58,12 @@
 
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub owner Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/sonatell/sonatel-api-springboot</url>
+        </repository>
+    </distributionManagement>
+
 </project>
