@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>sonatel-api-springboot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>[SDK] Sonatel API - Spring Boot SDK</name>
 
     <dependencies>
