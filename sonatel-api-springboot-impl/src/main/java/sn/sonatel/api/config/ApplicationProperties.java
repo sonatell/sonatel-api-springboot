@@ -20,7 +20,6 @@ public class ApplicationProperties {
     private final Security security = new Security();
     private String myMsisdn;
     private String myPinCode;
-
     private String baseUrl;
     private String publicKeyUri;
 
