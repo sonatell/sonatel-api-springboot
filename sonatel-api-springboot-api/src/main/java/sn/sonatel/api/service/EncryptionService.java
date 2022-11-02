@@ -15,7 +15,11 @@
  */
 package sn.sonatel.api.service;
 
+import sn.sonatel.api.exceptions.ApiException;
+
 public interface EncryptionService {
+
+    String getPubicKey() throws ApiException;
 
     String encrypt(String message, String publicKey) throws IllegalArgumentException;
 

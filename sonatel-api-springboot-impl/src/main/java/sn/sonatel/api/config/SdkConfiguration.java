@@ -18,10 +18,7 @@ package sn.sonatel.api.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.InMemoryReactiveOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -29,8 +26,10 @@ import org.springframework.security.oauth2.client.registration.InMemoryReactiveC
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
+import sn.sonatel.api.exceptions.ApiErrorHandler;
+import sn.sonatel.api.exceptions.ApiException;
+import sn.sonatel.api.request.AbstractApiErrorHandler;
 
 @Configuration
 public class SdkConfiguration {
@@ -73,6 +72,16 @@ public class SdkConfiguration {
                 .filter(oauth)
                 .build();
 
+    }
+
+    @Bean
+    public ApiErrorHandler<ApiException> apiErrorHandler(Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder){
+        return new AbstractApiErrorHandler<>(jackson2ObjectMapperBuilder) {
+            @Override
+            protected ApiException createException(ApiException base) {
+                return base;
+            }
+        };
     }
 
 }

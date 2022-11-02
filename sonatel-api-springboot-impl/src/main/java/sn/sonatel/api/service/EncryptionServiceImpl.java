@@ -15,25 +15,64 @@
  */
 package sn.sonatel.api.service;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
+import sn.sonatel.api.config.ApplicationProperties;
+import sn.sonatel.api.exceptions.ApiErrorHandler;
+import sn.sonatel.api.exceptions.ApiException;
+import sn.sonatel.api.model.KeyType;
+import sn.sonatel.api.request.ErrorHandlingRequest;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.stereotype.Service;
-
-import sn.sonatel.api.model.KeyType;
 
 @Slf4j
 @Service
 public class EncryptionServiceImpl implements EncryptionService {
+
+    private ApiPublicKey apiPublicKey;
+    private final WebClient webClient;
+    private final ApplicationProperties applicationProperties;
+    private final ApiErrorHandler<ApiException> apiErrorHandler;
+
+    public EncryptionServiceImpl(WebClient webClient, ApplicationProperties applicationProperties, ApiErrorHandler<ApiException> apiErrorHandler) {
+        this.webClient = webClient;
+        this.applicationProperties=applicationProperties;
+        this.apiErrorHandler = apiErrorHandler;
+    }
+
+
+    public String getPubicKey() throws ApiException {
+
+        if (apiPublicKey != null) {
+            return apiPublicKey.getKey();
+        }
+
+        RequestEntity<Void> request = RequestEntity.method(HttpMethod.GET,
+                UriComponentsBuilder.fromHttpUrl(applicationProperties.getBaseUrl())
+                        .path(applicationProperties.getPublicKeyUri())
+                        .build().toUri())
+                .build();
+
+        ErrorHandlingRequest<ApiException> httpRequest = new ErrorHandlingRequest<>(apiErrorHandler, this.webClient);
+        apiPublicKey = httpRequest.execute(request, ApiPublicKey.class);
+
+        return apiPublicKey.getKey();
+    }
 
     public String encrypt(String message, String publicKey) throws IllegalArgumentException {
         try {
@@ -50,6 +89,18 @@ public class EncryptionServiceImpl implements EncryptionService {
             log.error("Failed to encrypt message", ex);
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    @Getter
+    private static class ApiPublicKey {
+
+        private String key;
+
+        private String keyId;
+
+        private int keySize;
+
+        private String keyType;
     }
 
 }
