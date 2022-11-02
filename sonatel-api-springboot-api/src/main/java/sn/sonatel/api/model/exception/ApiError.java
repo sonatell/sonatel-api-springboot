@@ -1,5 +1,6 @@
 package sn.sonatel.api.model.exception;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +14,7 @@ public class ApiError {
     private String code;
 
     private String detail;
+    
+    private List<Violation> violations;
 
 }

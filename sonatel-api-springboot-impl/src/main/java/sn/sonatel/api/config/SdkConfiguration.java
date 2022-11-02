@@ -2,7 +2,9 @@ package sn.sonatel.api.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.InMemoryReactiveOAuth2AuthorizedClientService;
@@ -14,6 +16,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
+@ComponentScan(basePackages = "sn.sonatel.api")
+@EnableConfigurationProperties({SonatelSdkProperties.class})
 public class SdkConfiguration {
 
     private static final String ID = "sonatel";

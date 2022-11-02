@@ -10,21 +10,26 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
+import sn.sonatel.api.config.SonatelSdkProperties;
 import sn.sonatel.api.model.KeyType;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class EncryptionServiceImpl implements EncryptionService {
 
-    public String encrypt(String message, String publicKey) throws IllegalArgumentException {
+    private final SonatelSdkProperties applicationProperties;
+
+    public String encrypt(String message) throws IllegalArgumentException {
         try {
             var cipher = Cipher.getInstance(KeyType.RSA.toString()); //NOSONAR
 
-            var publicKeyBytes = Base64.decodeBase64(publicKey);
+            var publicKeyBytes = Base64.decodeBase64(applicationProperties.getPublicKey().getKey());
             KeyFactory publicKeyFactory = KeyFactory.getInstance(KeyType.RSA.toString());
             var publicKeySpec = new X509EncodedKeySpec(publicKeyBytes);
             var key = publicKeyFactory.generatePublic(publicKeySpec);
