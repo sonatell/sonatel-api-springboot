@@ -16,6 +16,7 @@
 package sn.sonatel.api.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.reactive.function.client.WebClientException;
 import sn.sonatel.api.exceptions.ApiError;
 import sn.sonatel.api.exceptions.ApiException;
@@ -29,10 +30,10 @@ import java.util.Optional;
 public abstract class AbstractApiErrorHandler<T extends ApiException> extends
 		AbstractRequestErrorHandler<T> {
 
-	protected final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
-	protected AbstractApiErrorHandler(ObjectMapper objectMapper) {
-		this.objectMapper = objectMapper;
+	protected AbstractApiErrorHandler(Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
+		this.objectMapper = jackson2ObjectMapperBuilder.build();
 	}
 
 	protected final ApiException httpResponseErrorToBaseException(
