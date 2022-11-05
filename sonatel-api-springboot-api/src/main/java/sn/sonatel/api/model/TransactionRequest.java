@@ -1,14 +1,17 @@
 package sn.sonatel.api.model;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
 
 @Builder
+@Getter
 public class TransactionRequest {
     private String partnerMsisdn;
-    private String partnerPinCode;
+    private String partnerEncryptedPinCode;
 
     @NonNull
     private Float amount;
@@ -20,5 +23,7 @@ public class TransactionRequest {
 
     private String reference;
 
-    private boolean receivedNotification;
+    private Instant requestDate;
+
+    private boolean receivedNotification = true;
 }

@@ -77,8 +77,8 @@ public class SonatelSdkAutoConfiguration {
         }
 
         @Bean
-        public TransactionService transaction(EncryptionService encryptionService, WebClient webClient){
-            return new TransactionServiceImpl(encryptionService, webClient);
+        public TransactionService transaction(EncryptionService encryptionService, WebClient webClient, SonatelSdkProperties applicationProperties){
+            return new TransactionServiceImpl(encryptionService, webClient, applicationProperties);
         }
 
     }

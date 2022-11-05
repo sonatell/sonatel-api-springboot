@@ -42,6 +42,8 @@ public class SonatelSdkProperties {
      */
     private String publicKeyUri = Constants.DefaultProperties.PUBLIC_KEY_URI;
 
+    private String cashinUri = Constants.DefaultProperties.CASHIN_URI;
+
     @Getter
     @Setter
     public static class Security {

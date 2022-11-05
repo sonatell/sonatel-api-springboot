@@ -8,7 +8,7 @@ public class ClientResponseException extends Exception {
     private final ApiError error;
 
     public ClientResponseException(ApiError error) {
-        super(error.getDetail());
+        //super(error.getDetail());
         this.error = error;
     }
 }

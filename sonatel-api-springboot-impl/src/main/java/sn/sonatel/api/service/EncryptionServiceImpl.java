@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -30,6 +31,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -41,8 +43,6 @@ import sn.sonatel.api.model.PublicKey;
 
 
 @Slf4j
-
-//@RequiredArgsConstructor
 public class EncryptionServiceImpl implements EncryptionService {
 
     private PublicKey publicKey ;
@@ -82,7 +82,7 @@ public class EncryptionServiceImpl implements EncryptionService {
     }
 
     @PostConstruct
-    void initProperties(){
+    void initProperties() {
         publicKey = this.webClient.get()
                 .uri(this.applicationProperties.getBaseUrl() + applicationProperties.getPublicKeyUri())
                 .retrieve()
@@ -90,5 +90,9 @@ public class EncryptionServiceImpl implements EncryptionService {
                 .block();
 
         myEncodedPinCode = this.encrypt(applicationProperties.getMyPinCode());
+        Optional.ofNullable(publicKey).ifPresent(
+                key ->  log.info("retrieved  public key is : {}...", publicKey.getKey().substring(100))
+        );
+
     }
 }
