@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Getter
 @Setter
@@ -17,10 +19,6 @@ public class RelatedParty implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-                "id='" + id + '\'' +
-                ", idType=" + idType +
-                ", encryptedPinCode='" + encryptedPinCode + '\'' +
-                '}';
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE, false, false, true, null);
     }
 }

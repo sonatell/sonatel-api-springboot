@@ -1,6 +1,5 @@
 package sn.sonatel.api.service;
 
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -9,12 +8,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import sn.sonatel.api.autoconfigure.Constants;
 import sn.sonatel.api.autoconfigure.SonatelSdkProperties;
-import sn.sonatel.api.exceptions.ApiException;
 import sn.sonatel.api.model.PublicKey;
 import sn.sonatel.api.model.Transaction;
 import sn.sonatel.api.model.TransactionRequest;
 import sn.sonatel.api.model.TransactionResponse;
-import sn.sonatel.api.model.exception.ApiError;
+import sn.sonatel.api.model.exception.ErrorDetails;
 import sn.sonatel.api.model.exception.ClientResponseException;
 import sn.sonatel.api.service.mapper.RequestMapper;
 
@@ -35,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionResponse cashIn(TransactionRequest request) {
         var transaction = RequestMapper.mapTransactionRequest(request, this.sonatelSdkProperties.getMyMsisdn(), this.encryptionService.getMyEncodedPinCode());
-        log.debug("Sending request {}", transaction);
+        log.info("Sending request {}", transaction);
         return this.sendRequest(transaction, this.sonatelSdkProperties.getCashinUri());
     }
 
@@ -54,12 +52,11 @@ public class TransactionServiceImpl implements TransactionService {
                 .retrieve()
                 .onStatus(
                         HttpStatus::isError,
-                        response -> {
-                            log.error("Failed to process transaction");
-                            return Mono.error(
-                                    new ClientResponseException(new ApiError())
-                            );
-                        }
+                        response -> response.bodyToMono(ErrorDetails.class)
+                                .flatMap(errorDetails -> {
+                                    log.error("Failed to process transaction due to : {}", errorDetails);
+                                    return Mono.error(new ClientResponseException(response.statusCode(), errorDetails));
+                                })
                 )
                 .bodyToMono(TransactionResponse.class)
                 .block();

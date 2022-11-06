@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.client.registration.ReactiveClientReg
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.web.reactive.function.client.WebClient;
+import sn.sonatel.api.exceptions.ApiExceptionHandler;
 import sn.sonatel.api.service.EncryptionService;
 import sn.sonatel.api.service.EncryptionServiceImpl;
 import sn.sonatel.api.service.TransactionService;
@@ -25,7 +26,7 @@ import sn.sonatel.api.service.TransactionServiceImpl;
 @Slf4j
 @AutoConfiguration
 @EnableConfigurationProperties({SonatelSdkProperties.class})
-@ConditionalOnProperty(prefix = "sonatel", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "sonatel", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SonatelSdkAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
@@ -79,6 +80,11 @@ public class SonatelSdkAutoConfiguration {
         @Bean
         public TransactionService transaction(EncryptionService encryptionService, WebClient webClient, SonatelSdkProperties applicationProperties){
             return new TransactionServiceImpl(encryptionService, webClient, applicationProperties);
+        }
+
+        @Bean
+        public ApiExceptionHandler exceptionHandler(){
+            return new ApiExceptionHandler();
         }
 
     }

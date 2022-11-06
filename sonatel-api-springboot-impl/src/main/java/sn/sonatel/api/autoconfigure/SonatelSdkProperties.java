@@ -18,6 +18,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SonatelSdkProperties {
 
     /**
+     * Whether to enable or disable sonatel configuration
+     */
+    private boolean enabled = true;
+
+    /**
      * security parameters
      */
     private final Security security = new Security();

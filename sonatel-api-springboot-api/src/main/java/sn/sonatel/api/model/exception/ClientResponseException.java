@@ -1,14 +1,19 @@
 package sn.sonatel.api.model.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 @Getter
-public class ClientResponseException extends Exception {
+public class ClientResponseException extends WebClientException {
 
-    private final ApiError error;
+    private final HttpStatus status;
+    private final ErrorDetails errorDetails;
 
-    public ClientResponseException(ApiError error) {
-        //super(error.getDetail());
-        this.error = error;
+    public ClientResponseException(HttpStatus status, ErrorDetails errorDetails) {
+        super(status.getReasonPhrase());
+        this.status = status;
+        this.errorDetails = errorDetails;
     }
+
 }

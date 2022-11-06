@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Getter
 @Setter
@@ -27,14 +29,6 @@ public class Transaction implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-                "partner=" + partner +
-                ", customer=" + customer +
-                ", amount=" + amount +
-                ", requestDate=" + requestDate +
-                ", receiveNotification=" + receiveNotification +
-                ", reference='" + reference + '\'' +
-                ", metadata=" + metadata +
-                '}';
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE, false, false, true, null);
     }
 }

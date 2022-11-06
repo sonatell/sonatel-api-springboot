@@ -1,6 +1,7 @@
 package sn.sonatel.api.service.mapper;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.lang3.ObjectUtils;
@@ -17,7 +18,7 @@ public interface RequestMapper {
         transaction.setRequestDate(ObjectUtils.defaultIfNull(source.getRequestDate(), Instant.now()));
         transaction.setReference(ObjectUtils.defaultIfNull(source.getReference(), UUID.randomUUID().toString()));
 
-        transaction.setMetadata(source.getMetadata());
+        transaction.setMetadata(ObjectUtils.defaultIfNull(source.getMetadata(), new HashMap<>()));
         transaction.setAmount(new Money(source.getAmount()));
 
         var partner = new RelatedParty();

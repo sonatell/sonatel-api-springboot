@@ -26,4 +26,5 @@ public class TransactionRequest {
     private Instant requestDate;
 
     private boolean receivedNotification = true;
+
 }
