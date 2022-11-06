@@ -10,7 +10,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Getter
 @Setter
 public class RelatedParty implements Serializable {
-
     private String id;
 
     private IdType idType = IdType.MSISDN;
