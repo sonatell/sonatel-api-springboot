@@ -27,14 +27,12 @@ sonatel:
 
 3 - Example (doing cashin request)
 
-````java
-
-        var request = TransactionRequest.builder()
-                .amount(2000f)
-                .customerMsisdn("771234567")
-                .build();
-        var response = transactionService.cashIn(request);
-
+```java
+    var request = TransactionRequest.builder()
+            .amount(2000f)
+            .customerMsisdn("771234567")
+            .build();
+    var response = transactionService.cashIn(request);
 ```
 
 2 - Required
