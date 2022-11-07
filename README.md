@@ -35,6 +35,6 @@ sonatel:
     var response = transactionService.cashIn(request);
 ```
 
-2 - Required
+### Required
 
 Java 11+
