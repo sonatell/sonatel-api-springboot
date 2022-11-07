@@ -20,8 +20,20 @@ sonatel:
     security:
         client-id: <put_your_client_id>
         client-secret: <put_your_client_secret>
-    my-numbers:
-        - 77xxxxxxx
+    my-msisdn: 77xxxxxxx
+    my-pin-code: 1234
+
+```
+
+3 - Example (doing cashin request)
+
+````java
+
+        var request = TransactionRequest.builder()
+                .amount(2000f)
+                .customerMsisdn("771234567")
+                .build();
+        var response = transactionService.cashIn(request);
 
 ```
 
