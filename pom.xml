@@ -11,7 +11,7 @@
 
     <groupId>sn.sonatel.api</groupId>
     <artifactId>sonatel-api-springboot-parent</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.0-RC1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Sonatel API - Spring Boot Library</name>
 
