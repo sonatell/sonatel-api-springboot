@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  sn.sonatel.api.config.SdkConfiguration
-@
