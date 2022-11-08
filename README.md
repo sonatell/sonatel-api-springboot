@@ -1,5 +1,13 @@
 # Sonatel APIs Spring Boot Library
 
+### 📃 Description
+
+The official Sonatel API SDK Java/Spring boot client. It eases API integration and adoption by :
+- managing under the hood token management
+- pincode encryption
+- request building
+- configuration
+
 ### 🚀 Getting started
 
 1 - Add SDK dependency
@@ -25,7 +33,7 @@ sonatel:
 
 ```
 
-3 - Example (doing cashin request)
+3 - Usage (ex: cashin request)
 
 ```java
     var request = TransactionRequest.builder()
@@ -35,6 +43,6 @@ sonatel:
     var response = transactionService.cashIn(request);
 ```
 
-### Required
+### Requirements
 
 Java 11+
