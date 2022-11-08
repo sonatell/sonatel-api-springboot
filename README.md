@@ -2,10 +2,12 @@
 
 ### 📃 Description
 
-The official Sonatel API SDK Java/Spring boot client. It eases API integration and adoption by :
+The official Sonatel API SDK Java/Spring boot client.
+The SDK makes it quick and easy to build Sonatel APIs integration and adoption by :
 - managing under the hood token management
 - pincode encryption
 - request building
+- error handling
 - configuration
 
 ### 🚀 Getting started
