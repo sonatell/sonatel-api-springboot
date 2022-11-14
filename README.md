@@ -1,9 +1,11 @@
 <div align="center">
-  <img src="assets/Logo - api.jpg" alt="Sonatel API" width="320">
-  <h1>Welcome to the Sonatel APIs Java/Spring boot SDK Library repository</h1>
+  <img src="assets/logo-api.png" alt="Sonatel API" width="320">
+  <h1>Welcome to the Sonatel APIs Spring boot SDK repository</h1>
   <h6>Made with ❤️ &nbsp;by developers for developers</h6>
 </div>
 <br>
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot-parent/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot-parent)
 
 ### 📃 Description
 
@@ -54,9 +56,6 @@ sonatel:
 ### Requirements
 
 Java 11+
-
-
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot-parent/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot-parent)
 
 ### License
 
