@@ -10,7 +10,7 @@
 
     <groupId>sn.sonatel.api</groupId>
     <artifactId>sonatel-api-springboot-parent</artifactId>
-    <version>1.0.0-RC1</version>
+    <version>1.0.0-RC2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Sonatel API - Spring Boot Library</name>
 
@@ -193,7 +193,7 @@
         <url>https://github.com/sonatell/${scm.project.id}</url>
         <connection>scm:git:git://github.com/sonatell/${scm.project.id}.git</connection>
         <developerConnection>scm:git:git@github.com:sonatell/${scm.project.id}.git</developerConnection>
-      <tag>sonatel-api-springboot-parent-1.0.0-RC1</tag>
+      <tag>HEAD</tag>
   </scm>
 
 </project>
