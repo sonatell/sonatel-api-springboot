@@ -36,7 +36,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final WebClient webClient;
     private final EncryptionService encryptionService;
-
     private final SonatelSdkProperties sonatelSdkProperties;
 
     public TransactionServiceImpl(EncryptionService encryptionService, @Qualifier(value= Constants.Qualifier.WEBCLIENT) WebClient webClient, SonatelSdkProperties sonatelSdkProperties) {
@@ -59,21 +58,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     private TransactionResponse sendRequest(Transaction request, String uri) {
         return this.webClient
-                .post()
-                .uri(this.sonatelSdkProperties.getBaseUrl() + uri)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(request)
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .onStatus(
-                        HttpStatus::isError,
-                        response -> response.bodyToMono(ErrorDetails.class)
-                                .flatMap(errorDetails -> {
-                                    log.error("Failed to process transaction due to : {}", errorDetails);
-                                    return Mono.error(new ClientResponseException(response.statusCode(), errorDetails));
-                                })
-                )
-                .bodyToMono(TransactionResponse.class)
-                .block();
+            .post()
+            .uri(this.sonatelSdkProperties.getBaseUrl() + uri)
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(request)
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .onStatus(
+                    HttpStatus::isError,
+                    response -> response.bodyToMono(ErrorDetails.class)
+                            .flatMap(errorDetails -> {
+                                log.error("Failed to process transaction due to : {}", errorDetails);
+                                return Mono.error(new ClientResponseException(response.statusCode(), errorDetails));
+                            })
+            )
+            .bodyToMono(TransactionResponse.class)
+            .block();
     }
 }

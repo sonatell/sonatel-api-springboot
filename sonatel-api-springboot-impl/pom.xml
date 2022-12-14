@@ -7,7 +7,6 @@
         <artifactId>sonatel-api-springboot-parent</artifactId>
         <groupId>sn.sonatel.api</groupId>
         <version>1.0.0-RC1-SNAPSHOT</version>
-        <relativePath/>
     </parent>
 
     <artifactId>sonatel-api-springboot-impl</artifactId>

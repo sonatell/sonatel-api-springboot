@@ -15,10 +15,11 @@
  */
 package sn.sonatel.api.model.exception;
 
+import java.io.Serializable;
 import lombok.Getter;
 
 @Getter
-public final class Violation {
+public final class Violation implements Serializable {
     private final String field;
     private final String message;
 
