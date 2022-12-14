@@ -21,16 +21,11 @@ jobs:
           java-version: 17
           cache: 'maven'
 
-      - name: Install GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" > gpg.asc
-          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch --yes --passphrase-fd 0 --import gpg.asc
+      - name: Build with Maven
+        run: ./mvnw -B
 
-      - name: Release to Sonatype OSSRH
+      - name: Deploy to Sonatype OSSRH
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
-          ./mvnw -B clean install -DskipTests
-          ./mvnw -B clean deploy -Psonatype -s settings.xml
+        run: ./mvnw -B clean deploy -s settings.xml
