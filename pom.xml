@@ -21,6 +21,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <lombok.version>1.18.24</lombok.version>
+        <scm.project.id>sonatel-api-springboot</scm.project.id>
     </properties>
 
     <modules>
@@ -188,5 +189,11 @@
             </build>
         </profile>
     </profiles>
+
+    <scm>
+        <url>https://github.com/sonatell/${scm.project.id}</url>
+        <connection>scm:git:git://github.com/sonatell/${scm.project.id}.git</connection>
+        <developerConnection>scm:git:git@github.com:sonatell/${scm.project.id}.git</developerConnection>
+    </scm>
 
 </project>
