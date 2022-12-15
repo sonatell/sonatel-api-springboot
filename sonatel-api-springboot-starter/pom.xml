@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sonatel-api-springboot-parent</artifactId>
         <groupId>sn.sonatel.api</groupId>
-        <version>1.0.0-RC2-SNAPSHOT</version>
+        <version>1.0.0-RC2</version>
     </parent>
 
     <artifactId>sonatel-api-springboot</artifactId>
