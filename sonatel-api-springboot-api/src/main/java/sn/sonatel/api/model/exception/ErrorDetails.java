@@ -16,13 +16,15 @@
 package sn.sonatel.api.model.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ErrorDetails {
+public class ErrorDetails implements Serializable {
     private String type;
     private String title;
     private String instance;
@@ -30,7 +32,7 @@ public class ErrorDetails {
     private String code;
     private String detail;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Violation> violations;
+    private List<Violation> violations = new ArrayList<>();
 
     @Override
     public String toString() {

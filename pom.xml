@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>sn.sonatel.api</groupId>
     <artifactId>sonatel-api-springboot-parent</artifactId>
-    <version>1.0.0-RC1-SNAPSHOT</version>
+    <version>1.0.0-RC4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Sonatel API - Spring Boot Library</name>
 
@@ -21,6 +20,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <lombok.version>1.18.24</lombok.version>
+        <project.scm.url>github.com/sonatell/sonatel-api-springboot</project.scm.url>
     </properties>
 
     <modules>
@@ -29,16 +29,6 @@
         <module>sonatel-api-springboot-starter</module>
     </modules>
 
-    <!--<dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${mapstruct.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>-->
-
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,6 +36,13 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>3.0.0-M7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -188,5 +185,12 @@
             </build>
         </profile>
     </profiles>
+
+    <scm>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <url>git@github.com:sonatell/sonatel-api-springboot</url>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>

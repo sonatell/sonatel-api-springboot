@@ -30,7 +30,6 @@ public class TransactionResponse {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String requestId;
 
-
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String description;
 
