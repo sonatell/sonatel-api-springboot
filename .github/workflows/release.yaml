@@ -25,8 +25,11 @@ jobs:
         run: ./mvnw -B
 
       - name: Deploy to Sonatype OSSRH
+        uses: qcastel/github-actions-maven-release@master
+        with:
+          maven-args: "-Dmaven.javadoc.skip=true -DskipTests -s settings.xml"
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         #run: ./mvnw -B clean deploy -s settings.xml
-        run: ./mvnw -B release:clean release:prepare release:perform -s settings.xml
+        #run: ./mvnw -B release:clean release:prepare release:perform -s settings.xml
