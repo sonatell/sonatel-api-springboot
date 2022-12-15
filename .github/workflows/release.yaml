@@ -32,5 +32,6 @@ jobs:
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk/
         #run: ./mvnw -B clean deploy -s settings.xml
         #run: ./mvnw -B release:clean release:prepare release:perform -s settings.xml
