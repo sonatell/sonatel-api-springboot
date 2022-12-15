@@ -20,7 +20,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <lombok.version>1.18.24</lombok.version>
-        <scm.project.id>sonatel-api-springboot</scm.project.id>
+        <project.scm.url>github.com/sonatell/sonatel-api-springboot</project.scm.url>
     </properties>
 
     <modules>
@@ -29,16 +29,6 @@
         <module>sonatel-api-springboot-starter</module>
     </modules>
 
-    <!--<dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId>
-                <version>${mapstruct.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>-->
-
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,6 +36,13 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>3.0.0-M7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -190,10 +187,10 @@
     </profiles>
 
     <scm>
-        <url>https://github.com/sonatell/${scm.project.id}</url>
-        <connection>scm:git:git://github.com/sonatell/${scm.project.id}.git</connection>
-        <developerConnection>scm:git:git@github.com:sonatell/${scm.project.id}.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <url>git@github.com:sonatell/sonatel-api-springboot</url>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>
