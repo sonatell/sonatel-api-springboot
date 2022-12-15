@@ -28,6 +28,7 @@ jobs:
         uses: qcastel/github-actions-maven-release@master
         with:
           maven-args: "-Dmaven.javadoc.skip=true -DskipTests -s settings.xml"
+          release-branch-name: "release"
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
