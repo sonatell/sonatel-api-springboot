@@ -27,7 +27,10 @@ jobs:
       - name: Deploy to Sonatype OSSRH
         uses: qcastel/github-actions-maven-release@master
         with:
-          gpg-enabled: "false"
+          gpg-enabled: true
+          gpg-key-id: ${{ secrets.GPG_KEY_ID }}
+          gpg-key: ${{ secrets.GPG_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           maven-args: "-DskipTests -s settings.xml"
           release-branch-name: "release"
