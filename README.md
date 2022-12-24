@@ -25,7 +25,7 @@ The SDK makes it quick and easy to build Sonatel APIs integration and adoption b
 ```xml
         <dependency>
             <groupId>sn.sonatel.api</groupId>
-            <artifactId>sonatel-api-springboot</artifactId>
+            <artifactId>sonatel-api-springboot-starter</artifactId>
             <version>${sdk.version}</version>
         </dependency>
 ```
