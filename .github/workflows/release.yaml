@@ -2,7 +2,7 @@ name: Release to Maven Central
 
 on:
   push:
-    branches: [ release/release ]
+    branches: [ release ]
 
 jobs:
   build:
@@ -21,16 +21,22 @@ jobs:
           java-version: 17
           cache: 'maven'
 
-      - name: Install GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" > gpg.asc
-          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch --yes --passphrase-fd 0 --import gpg.asc
+      - name: Build with Maven
+        run: ./mvnw -B
 
-      - name: Release to Sonatype OSSRH
+      - name: Deploy to Sonatype OSSRH
+        uses: qcastel/github-actions-maven-release@master
+        with:
+          gpg-enabled: false
+          gpg-key-id: ${{ secrets.GPG_KEY_ID }}
+          gpg-key: ${{ secrets.GPG_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          maven-args: "-DskipTests -s settings.xml"
+          release-branch-name: "release"
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
-          ./mvnw -B clean install -DskipTests
-          ./mvnw -B clean deploy -Psonatype -s settings.xml
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk/
+        #run: ./mvnw -B clean deploy -s settings.xml
+        #run: ./mvnw -B release:clean release:prepare release:perform -s settings.xml

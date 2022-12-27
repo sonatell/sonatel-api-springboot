@@ -18,13 +18,19 @@ package sn.sonatel.api.model;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
-@Builder
 @Getter
 public class TransactionRequest {
+
+    protected TransactionRequest(@NonNull Float amount, @NonNull String customerMsisdn) {
+        this.withAmount(amount);
+        this.withCustomerMsisdn(customerMsisdn);
+    }
+
     private String partnerMsisdn;
     private String partnerEncryptedPinCode;
 
@@ -41,5 +47,56 @@ public class TransactionRequest {
     private Instant requestDate;
 
     private boolean receivedNotification = true;
+
+    public TransactionRequest withPartnerMsisdn(@NonNull String partnerMsisdn) {
+        Assert.notNull(partnerMsisdn, "Partner msisdn is required");
+        this.partnerMsisdn = partnerMsisdn;
+        return this;
+    }
+
+    public TransactionRequest withPartnerEncryptedPinCode(@NonNull String partnerEncryptedPinCode) {
+        Assert.notNull(partnerEncryptedPinCode, "Partner encrypted pin code is required");
+        this.partnerEncryptedPinCode = partnerEncryptedPinCode;
+        return this;
+    }
+
+    public TransactionRequest withAmount(@NonNull Float amount) {
+        Assert.notNull(amount, "Amount is required");
+        this.amount = amount;
+        return this;
+    }
+
+    public TransactionRequest withCustomerMsisdn(@NonNull String customerMsisdn) {
+        Assert.notNull(customerMsisdn, "Customer msisdn is required");
+        this.customerMsisdn = customerMsisdn;
+        return this;
+    }
+
+    public TransactionRequest withRequestDate(Instant requestDate) {
+        this.requestDate = requestDate;
+        return this;
+    }
+
+    public TransactionRequest withReference(String reference) {
+        this.reference = reference;
+        return this;
+    }
+
+    public TransactionRequest withMetadata(@NonNull Map<String, String> metadata) {
+        if(!CollectionUtils.isEmpty(metadata)){
+            this.metadata = metadata;
+        }
+        return this;
+    }
+
+    public TransactionRequest allowNotification(boolean receivedNotification) {
+        this.receivedNotification = receivedNotification;
+        return this;
+    }
+
+    public static TransactionRequest forAmountAndCustomer(@NonNull Float amount, @NonNull String customerMsisdn) {
+        return new TransactionRequest(amount, customerMsisdn);
+    }
+
 
 }
