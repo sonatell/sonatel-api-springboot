@@ -9,7 +9,7 @@
 
     <groupId>sn.sonatel.api</groupId>
     <artifactId>sonatel-api-springboot-parent</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>Sonatel API - Spring Boot Library</name>
 
@@ -107,30 +107,22 @@
 
     <profiles>
         <profile>
-
-            <id>ci</id>
-
+            <id>release</id>
             <build>
                 <plugins>
-
                     <plugin>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok-maven-plugin</artifactId>
-                        <version>1.18.20.0</version>
-                        <configuration>
-                            <addOutputDirectory>false</addOutputDirectory>
-                            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-                        </configuration>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
                         <executions>
                             <execution>
-                                <phase>generate-sources</phase>
+                                <id>attach-sources</id>
                                 <goals>
-                                    <goal>delombok</goal>
+                                    <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -143,26 +135,7 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <doclint>none</doclint>
-                            <quiet>true</quiet>
-                            <show>package</show>
-                            <sourcepath>target/generated-sources/delombok</sourcepath>
-                        </configuration>
                     </plugin>
-
-                </plugins>
-            </build>
-
-        </profile>
-
-        <profile>
-            <id>sonatype</id>
-            <properties>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-            <build>
-                <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -177,7 +150,11 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                            <!-- Prevent gpg from using pinentry programs -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
                         </configuration>
                     </plugin>
                 </plugins>
