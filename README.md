@@ -25,7 +25,7 @@ The SDK makes it quick and easy to build Sonatel APIs integration and adoption b
 ```xml
         <dependency>
             <groupId>sn.sonatel.api</groupId>
-            <artifactId>sonatel-api-springboot</artifactId>
+            <artifactId>sonatel-api-springboot-starter</artifactId>
             <version>${sdk.version}</version>
         </dependency>
 ```
@@ -46,10 +46,7 @@ sonatel:
 3 - Usage (ex: cashin request)
 
 ```java
-    var request = TransactionRequest.builder()
-            .amount(2000f)
-            .customerMsisdn("771234567")
-            .build();
+    var request = TransactionRequest.forAmountAndCustomer(2f, "786258731");
     var response = transactionService.cashIn(request);
 ```
 

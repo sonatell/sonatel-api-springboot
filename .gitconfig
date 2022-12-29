@@ -1,3 +1,10 @@
 [user]
     name = Mandiaye DIOP
     email = mandiaye.diop@orange-sonatel.com
+[alias]
+	co = checkout
+	br = branch
+	brd = branch -d
+	brD = branch -D
+	st = status
+	cm = commit -m

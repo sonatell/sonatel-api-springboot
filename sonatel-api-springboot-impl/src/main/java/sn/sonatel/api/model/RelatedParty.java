@@ -28,6 +28,7 @@ public class RelatedParty implements Serializable {
     private String id;
 
     private IdType idType = IdType.MSISDN;
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String encryptedPinCode;
 

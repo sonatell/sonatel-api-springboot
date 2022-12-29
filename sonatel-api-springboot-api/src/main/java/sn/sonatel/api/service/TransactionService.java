@@ -6,7 +6,9 @@ import sn.sonatel.api.model.TransactionResponse;
 import sn.sonatel.api.model.exception.ClientResponseException;
 
 public interface TransactionService {
-        TransactionResponse cashIn(TransactionRequest request) throws ClientResponseException;
+
         PublicKey getPublicKey();
+        Float getBalance() throws ClientResponseException;
+        TransactionResponse cashIn(TransactionRequest request) throws ClientResponseException;
 
 }
