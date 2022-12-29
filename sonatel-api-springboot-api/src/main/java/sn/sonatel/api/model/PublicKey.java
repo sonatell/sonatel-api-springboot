@@ -29,7 +29,7 @@ public class PublicKey {
 
     @Override
     public String toString() {
-        return "PublicKey{" +
+        return "{" +
                 "keyId='" + keyId + '\'' +
                 ", keyType=" + keyType +
                 ", keySize=" + keySize +

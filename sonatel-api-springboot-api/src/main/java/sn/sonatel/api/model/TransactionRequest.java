@@ -99,4 +99,17 @@ public class TransactionRequest {
     }
 
 
+    @Override
+    public String toString() {
+        return "{" +
+                "partnerMsisdn='" + partnerMsisdn + '\'' +
+                ", partnerEncryptedPinCode=********" +
+                ", amount=" + amount +
+                ", customerMsisdn='" + customerMsisdn + '\'' +
+                ", metadata=" + metadata +
+                ", reference='" + reference + '\'' +
+                ", requestDate=" + requestDate +
+                ", receivedNotification=" + receivedNotification +
+                '}';
+    }
 }
