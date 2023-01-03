@@ -15,6 +15,8 @@
  */
 package sn.sonatel.api.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -23,10 +25,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import sn.sonatel.api.autoconfigure.Constants;
 import sn.sonatel.api.autoconfigure.SonatelSdkProperties;
-import sn.sonatel.api.model.PublicKey;
-import sn.sonatel.api.model.Transaction;
-import sn.sonatel.api.model.TransactionRequest;
-import sn.sonatel.api.model.TransactionResponse;
+import sn.sonatel.api.model.*;
 import sn.sonatel.api.model.exception.ErrorDetails;
 import sn.sonatel.api.model.exception.ClientResponseException;
 import sn.sonatel.api.service.mapper.RequestMapper;
@@ -44,16 +43,25 @@ public class TransactionServiceImpl implements TransactionService {
         this.sonatelSdkProperties = sonatelSdkProperties;
     }
 
+
+    @Override
+    public PublicKey getPublicKey() {
+        return encryptionService.getPublicKey();
+    }
+
+    @Override
+    public Float getBalance() throws ClientResponseException {
+        var relatedParty = new RelatedParty();
+        relatedParty.setId(this.sonatelSdkProperties.getMyMsisdn());
+        relatedParty.setEncryptedPinCode(this.encryptionService.getMyEncodedPinCode());
+        return this.getBalance(relatedParty, this.sonatelSdkProperties.getBalanceUri());
+    }
+
     @Override
     public TransactionResponse cashIn(TransactionRequest request) {
         var transaction = RequestMapper.mapTransactionRequest(request, this.sonatelSdkProperties.getMyMsisdn(), this.encryptionService.getMyEncodedPinCode());
         log.info("Sending request {}", transaction);
         return this.sendRequest(transaction, this.sonatelSdkProperties.getCashinUri());
-    }
-
-    @Override
-    public PublicKey getPublicKey() {
-        return encryptionService.getPublicKey();
     }
 
     private TransactionResponse sendRequest(Transaction request, String uri) {
@@ -74,5 +82,27 @@ public class TransactionServiceImpl implements TransactionService {
             )
             .bodyToMono(TransactionResponse.class)
             .block();
+    }
+
+
+    private Float getBalance(RelatedParty retailer, String uri) {
+        return this.webClient
+                .post()
+                .uri(this.sonatelSdkProperties.getBaseUrl() + uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(retailer)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .onStatus(
+                        HttpStatus::isError,
+                        response -> response.bodyToMono(ErrorDetails.class)
+                                .flatMap(errorDetails -> {
+                                    log.error("Failed to process transaction due to : {}", errorDetails);
+                                    return Mono.error(new ClientResponseException(response.statusCode(), errorDetails));
+                                })
+                )
+                .bodyToMono(Money.class)
+                .block()
+                .getValue();
     }
 }
