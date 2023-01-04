@@ -5,7 +5,7 @@ name: Release
 
 on:
   push:
-    branches: [ origin/release ]
+    branches: [ release ]
 
 jobs:
   release:
@@ -35,7 +35,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Publish to Apache Maven Central
-        run: mvn -Prelease deploy
+        run: ./mvnw -B release:clean release:prepare release:perform #mvn -Prelease deploy
         env:
           OSSRH_USERNAME: ${{ secrets.SONATYPE_USER }}
           OSSRH_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
