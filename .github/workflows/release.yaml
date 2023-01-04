@@ -5,7 +5,7 @@ name: Release
 
 on:
   push:
-    branches: [ origin/release ]
+    branches: [ release ]
 
 jobs:
   release:
