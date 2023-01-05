@@ -5,7 +5,7 @@
 </div>
 <br>
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot-parent/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot-parent)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/sn.sonatel.api/sonatel-api-springboot)
 
 ### 📃 Description
 
