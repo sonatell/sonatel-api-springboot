@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
+import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.crypto.BadPaddingException;
@@ -31,7 +32,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -46,7 +46,8 @@ import sn.sonatel.api.model.PublicKey;
 public class EncryptionServiceImpl implements EncryptionService {
 
     private PublicKey publicKey ;
-    private String myEncodedPinCode ;
+    private String retailerEncodedPinCode;
+    private String merchantEncodedPinCode;
 
     private final SonatelSdkProperties applicationProperties;
     private final WebClient webClient;
@@ -66,7 +67,7 @@ public class EncryptionServiceImpl implements EncryptionService {
             var key = publicKeyFactory.generatePublic(publicKeySpec);
 
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            return Base64.encodeBase64String(cipher.doFinal(message.getBytes(StandardCharsets.UTF_8)));
+            return Objects.isNull(message) ? null : Base64.encodeBase64String(cipher.doFinal(message.getBytes(StandardCharsets.UTF_8)));
         } catch(NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException ex){
             log.error("Failed to encrypt message", ex);
             throw new IllegalArgumentException(ex);
@@ -77,8 +78,12 @@ public class EncryptionServiceImpl implements EncryptionService {
         return publicKey;
     }
 
-    public String getMyEncodedPinCode() {
-        return myEncodedPinCode;
+    public String getRetailerAccountEncodedPinCode() {
+        return retailerEncodedPinCode;
+    }
+
+    public String getMerchantAccountEncodedPinCode() {
+        return merchantEncodedPinCode;
     }
 
     @PostConstruct
@@ -89,7 +94,14 @@ public class EncryptionServiceImpl implements EncryptionService {
                 .bodyToMono(PublicKey.class)
                 .block();
 
-        myEncodedPinCode = this.encrypt(applicationProperties.getMyPinCode());
+        Optional.ofNullable(applicationProperties.getRetailer()).ifPresent(
+                retailer-> retailerEncodedPinCode = this.encrypt(retailer.getPinCode())
+        );
+
+        Optional.ofNullable(applicationProperties.getMerchant()).ifPresent(
+                merchant -> merchantEncodedPinCode = this.encrypt(merchant.getPinCode())
+        );
+
         Optional.ofNullable(publicKey).ifPresent(
                 key ->  log.info("retrieved  public key is : {}...", publicKey.getKey().substring(100))
         );

@@ -40,6 +40,8 @@ public class TransactionRequest {
     @NonNull
     private String customerMsisdn;
 
+    private String otp;
+
     private Map<String, String> metadata = new HashMap<>();
 
     private String reference;
@@ -79,6 +81,11 @@ public class TransactionRequest {
 
     public TransactionRequest withReference(String reference) {
         this.reference = reference;
+        return this;
+    }
+
+    public TransactionRequest withOtp(String otp) {
+        this.otp = otp;
         return this;
     }
 

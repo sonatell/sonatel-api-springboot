@@ -43,14 +43,14 @@ public class SonatelSdkProperties {
     private final Security security = new Security();
 
     /**
-     * partner msisdn
+     * partner (retailer/distri account)
      */
+    private Account retailer = new Account();
 
-    private String myMsisdn;
     /**
-     * partner pin code
+     * partner (merchant/marchand account)
      */
-    private String myPinCode;
+    private Account merchant = new Account();
 
     /**
      * sonatel api base url
@@ -63,6 +63,8 @@ public class SonatelSdkProperties {
     private String publicKeyUri = Constants.DefaultProperties.PUBLIC_KEY_URI;
 
     private String cashinUri = Constants.DefaultProperties.CASHIN_URI;
+
+    private String webPayment = Constants.DefaultProperties.WEB_PAYMENT_URI;
 
     private String balanceUri = Constants.DefaultProperties.BALANCE_URI;
 
@@ -83,6 +85,14 @@ public class SonatelSdkProperties {
          * endpoint to retrieve access token
          */
         private String tokenUrl = Constants.DefaultProperties.TOKEN_URL;
+    }
+
+    @Getter
+    @Setter
+    public static class Account {
+        private String msisdn;
+        private String merchantCode;
+        private String pinCode;
     }
 
 }

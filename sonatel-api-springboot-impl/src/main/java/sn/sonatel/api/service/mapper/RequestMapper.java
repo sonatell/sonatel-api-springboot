@@ -19,10 +19,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 import org.apache.commons.lang3.ObjectUtils;
-import sn.sonatel.api.model.Money;
-import sn.sonatel.api.model.RelatedParty;
-import sn.sonatel.api.model.Transaction;
-import sn.sonatel.api.model.TransactionRequest;
+import sn.sonatel.api.model.*;
 
 public interface RequestMapper {
 
@@ -45,6 +42,12 @@ public interface RequestMapper {
         transaction.setCustomer(customer);
 
         return transaction;
+    }
 
+    static Transaction webPayment(TransactionRequest source, String defaultPartnerMsisdn, String defaultPinCode) {
+        var transaction = mapTransactionRequest(source, defaultPartnerMsisdn, defaultPinCode);
+        transaction.getPartner().setEncryptedPinCode(null);
+        transaction.getPartner().setIdType(IdType.CODE);
+        return transaction;
     }
 }

@@ -21,6 +21,7 @@ public interface EncryptionService {
 
     String encrypt(String message) throws IllegalArgumentException;
     PublicKey getPublicKey();
-    String getMyEncodedPinCode();
+    String getRetailerAccountEncodedPinCode();
+    String getMerchantAccountEncodedPinCode();
 
 }

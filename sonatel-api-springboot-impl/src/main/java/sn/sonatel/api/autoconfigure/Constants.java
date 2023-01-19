@@ -32,6 +32,8 @@ public final class Constants {
 
         public static final String CASHIN_URI = API_URI + "/cashins";
 
+        public static final String WEB_PAYMENT_URI = API_URI + "/payments/onestep";
+
         public static final String BALANCE_URI = API_URI + "/account/retailer/balance";
 
         public static final String TOKEN_URL = BASE_URL + "/oauth/v1/token";
