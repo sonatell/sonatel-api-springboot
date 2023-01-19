@@ -175,10 +175,12 @@ class TransactionRequestTest {
     @Test
     void testForAmountAndCustomer3() {
         TransactionRequest actualForAmountAndCustomerResult = TransactionRequest.forAmountAndCustomer(10.0f, "Customer Msisdn");
+        actualForAmountAndCustomerResult.withOtp("123456");
         assertEquals(10.0f, actualForAmountAndCustomerResult.getAmount().floatValue());
         assertTrue(actualForAmountAndCustomerResult.isReceivedNotification());
         assertTrue(actualForAmountAndCustomerResult.getMetadata().isEmpty());
         assertEquals("Customer Msisdn", actualForAmountAndCustomerResult.getCustomerMsisdn());
+        assertEquals("123456", actualForAmountAndCustomerResult.getOtp());
     }
 
 }

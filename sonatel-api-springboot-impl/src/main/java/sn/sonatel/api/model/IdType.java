@@ -19,6 +19,7 @@ import lombok.Getter;
 
 @Getter
 public enum IdType {
-    MSISDN
+    MSISDN,
+    CODE
 }
 

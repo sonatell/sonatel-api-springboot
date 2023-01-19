@@ -15,8 +15,6 @@
  */
 package sn.sonatel.api.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -43,25 +41,39 @@ public class TransactionServiceImpl implements TransactionService {
         this.sonatelSdkProperties = sonatelSdkProperties;
     }
 
-
     @Override
     public PublicKey getPublicKey() {
         return encryptionService.getPublicKey();
     }
 
     @Override
-    public Float getBalance() throws ClientResponseException {
+    public Float getRetailerBalance() throws ClientResponseException {
         var relatedParty = new RelatedParty();
-        relatedParty.setId(this.sonatelSdkProperties.getMyMsisdn());
-        relatedParty.setEncryptedPinCode(this.encryptionService.getMyEncodedPinCode());
+        relatedParty.setId(this.sonatelSdkProperties.getRetailer().getMsisdn());
+        relatedParty.setEncryptedPinCode(this.encryptionService.getRetailerAccountEncodedPinCode());
+        return this.getBalance(relatedParty, this.sonatelSdkProperties.getBalanceUri());
+    }
+
+    @Override
+    public Float getMerchantBalance() throws ClientResponseException {
+        var relatedParty = new RelatedParty();
+        relatedParty.setId(this.sonatelSdkProperties.getMerchant().getMsisdn());
+        relatedParty.setEncryptedPinCode(this.encryptionService.getMerchantAccountEncodedPinCode());
         return this.getBalance(relatedParty, this.sonatelSdkProperties.getBalanceUri());
     }
 
     @Override
     public TransactionResponse cashIn(TransactionRequest request) {
-        var transaction = RequestMapper.mapTransactionRequest(request, this.sonatelSdkProperties.getMyMsisdn(), this.encryptionService.getMyEncodedPinCode());
-        log.info("Sending request {}", transaction);
+        var transaction = RequestMapper.mapTransactionRequest(request, this.sonatelSdkProperties.getRetailer().getMsisdn(), this.encryptionService.getRetailerAccountEncodedPinCode());
+        log.info("Sending cashin request {}", transaction);
         return this.sendRequest(transaction, this.sonatelSdkProperties.getCashinUri());
+    }
+
+    @Override
+    public TransactionResponse webPayment(TransactionRequest request) throws ClientResponseException {
+        var transaction = RequestMapper.webPayment(request, this.sonatelSdkProperties.getMerchant().getMsisdn(), this.encryptionService.getMerchantAccountEncodedPinCode());
+        log.info("Sending web payment request {}", transaction);
+        return this.sendRequest(transaction, this.sonatelSdkProperties.getWebPayment());
     }
 
     private TransactionResponse sendRequest(Transaction request, String uri) {
@@ -85,12 +97,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-    private Float getBalance(RelatedParty retailer, String uri) {
+    private Float getBalance(RelatedParty party, String uri) {
         return this.webClient
                 .post()
                 .uri(this.sonatelSdkProperties.getBaseUrl() + uri)
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(retailer)
+                .bodyValue(party)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .onStatus(
