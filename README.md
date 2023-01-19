@@ -38,9 +38,13 @@ sonatel:
     security:
         client-id: <put_your_client_id>
         client-secret: <put_your_client_secret>
-    my-msisdn: 77xxxxxxx
-    my-pin-code: 1234
-
+    retailer:
+        msisdn: 7xxxxxxxx
+        pin-code: XXXX
+    merchant:
+        msisdn: 7xxxxxxxx
+        merchant-code: XXXXXX
+        pin-code: XXXX
 ```
 
 3 - Usage (ex: cashin request)
